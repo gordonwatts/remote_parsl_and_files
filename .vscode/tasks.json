@@ -1,0 +1,37 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run locally",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "-ci",
+                "conda activate parsl_test && python run_local.py"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Create Parsl Environment",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "-ci",
+                "conda remove --name parsl_test --all && conda create -y --name parsl_test python=3.7"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Get Latest Verison of Parsl",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "-ci",
+                "conda activate parsl_test && (([ -d /tmp/parsl ] && rm -rf /tmp/parsl) || echo -n) && cd /tmp && git clone https://github.com/Parsl/parsl && cd parsl && python setup.py install"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}
