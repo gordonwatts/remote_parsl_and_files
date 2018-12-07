@@ -20,7 +20,8 @@ remote_config = Config(
                 nodes_per_block=1,
                 parallelism=0.5,
                 channel=SSHChannel(hostname="localhost"),
-                worker_init='conda activate parsl_test'
+                worker_init='source /phys/groups/tev/scratch3/users/gwatts/anaconda3/etc/profile.d/conda.sh && conda activate parsl',
+                #worker_init='source /home/gwatts/anaconda3/etc/profile.d/conda.sh && conda activate parsl',
             )
         )
     ]
