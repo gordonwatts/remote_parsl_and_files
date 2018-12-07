@@ -1,6 +1,5 @@
 # Run a local copy of the parsl work flow.
-#import workflow
-from workflow import run_cat_test
+import workflow
 import parsl
 
 # Be explicit about loading a threading executor.
@@ -29,5 +28,5 @@ remote_config = Config(
 )
 parsl.load(remote_config)
 
-r = run_cat_test().result()
+r = workflow.run_cat_test().result()
 print ("Result from the test is {}".format(r))
