@@ -20,6 +20,11 @@ def run_cat_test():
     write_test_text_file ('/tmp/hello2.txt', 'hi2')
     write_test_text_file ('/tmp/hello3.txt', 'hi3')
 
+    # Make sure we don't have an output file.
+    import os
+    if os.path.isfile('all_hellos.txt'):
+        os.unlink('all_hellos.txt')
+
     concat = cat(inputs=['/tmp/hello1.txt','/tmp/hello2.txt','/tmp/hello3.txt'],
              outputs=['all_hellos.txt'])
 

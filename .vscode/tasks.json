@@ -14,6 +14,16 @@
             "problemMatcher": []
         },
         {
+            "label": "run remotely",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "-ci",
+                "conda activate parsl_test && python run_remote.py"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Create Parsl Environment",
             "type": "process",
             "command": "bash",
