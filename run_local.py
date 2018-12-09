@@ -2,6 +2,7 @@
 #import workflow
 from workflow import run_cat_test
 import parsl
+import os
 
 # Be explicit about loading a threading executor.
 # (copied from the tutorial)
@@ -19,6 +20,8 @@ local_config = Config(
 parsl.load(local_config)
 
 # Run this and print out the result
+if os.path.isfile("all_hellos.txt"):
+    os.unlink("all_hellos.txt")
 r = run_cat_test()
 with open(r.outputs[0].result(), 'r') as f:
     print(f.read())

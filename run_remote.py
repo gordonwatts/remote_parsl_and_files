@@ -31,6 +31,8 @@ remote_config = Config(
 parsl.load(remote_config)
 
 # Run this and print out the result
+if os.path.isfile("all_hellos.txt"):
+    os.unlink("all_hellos.txt")
 r = run_cat_test()
 with open(r.outputs[0].result(), 'r') as f:
     print(f.read())
