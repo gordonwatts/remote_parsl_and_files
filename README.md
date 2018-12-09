@@ -18,38 +18,21 @@ To run the test locally threaded you can do:
 
 It should print out `hi1hi2hi3`.
 
-To run remotely you'll first need to edit `run_remote.py` and alter the ssh host name and the worker_init command as needed.
+To run remotely you'll first need to edit `run_remote.py` and alter the ssh host name and the worker_init command as needed. It should
+run on localhost just fine, though the startup and config scripts will have to be fixed in the file.
 
 # Crashes
 
-The crashes I am seeing are several at the moment.
+1. When the run_remote.py is run, it creates an all_files.txt as its final
+   output. Unfotunately, it is created in the user's home directory, not in the directory from where you are running. What i thought should have happened:
+   - The file should have been automatically written in the local directory.
+     Because that is where the source script is being run, or, 
+   - The DataFuture returned should have had the full path in it so even though   it was written somewhere else, it would have been tracked properly (e.g. h   how did the existance of that file get checked?).
 
-- if you try to use a hostname of localhost, it just hangs. Looking at the submission scripts it looks like zero length scripts are being written. This might not be a bug. Happy to submit if it is. This would be awesome as it makes it easy to test workflows as if you were running in a remote environment.
-- A crash because it can't find the module `workflow`. Crash dump is below.
-
-Crash due to missing module:
 ```
-(parsl_test) -bash-4.2$ python run_remote.py
 Traceback (most recent call last):
-  File "run_remote.py", line 31, in <module>
-    r = workflow.run_cat_test().result()
-  File "/phys/groups/tev/scratch3/users/gwatts/anaconda3/envs/parsl/lib/python3.7/concurrent/futures/_base.py", line 432, in result
-    return self.__get_result()
-  File "/phys/groups/tev/scratch3/users/gwatts/anaconda3/envs/parsl/lib/python3.7/concurrent/futures/_base.py", line 384, in __get_result
-    raise self._exception
-  File "/phys/groups/tev/scratch3/users/gwatts/anaconda3/envs/parsl/lib/python3.7/site-packages/parsl-0.6.2a1-py3.7.egg/parsl/dataflow/futures.py", line 126, in parent_callback
-    res = executor_fu.result()
-  File "/phys/groups/tev/scratch3/users/gwatts/anaconda3/envs/parsl/lib/python3.7/concurrent/futures/_base.py", line 425, in result
-    return self.__get_result()
-  File "/phys/groups/tev/scratch3/users/gwatts/anaconda3/envs/parsl/lib/python3.7/concurrent/futures/_base.py", line 384, in __get_result
-    raise self._exception
-  File "/phys/groups/tev/scratch3/users/gwatts/anaconda3/envs/parsl/lib/python3.7/site-packages/parsl-0.6.2a1-py3.7.egg/parsl/dataflow/dflow.py", line 257, in handle_exec_update
-    res = future.result()
-  File "/phys/groups/tev/scratch3/users/gwatts/anaconda3/envs/parsl/lib/python3.7/concurrent/futures/_base.py", line 425, in result
-    return self.__get_result()
-  File "/phys/groups/tev/scratch3/users/gwatts/anaconda3/envs/parsl/lib/python3.7/concurrent/futures/_base.py", line 384, in __get_result
-    raise self._exception
-  File "/phys/groups/tev/scratch3/users/gwatts/anaconda3/envs/parsl/lib/python3.7/site-packages/ipyparallel-6.2.3-py3.7.egg/ipyparallel/client/asyncresult.py", line 226, in _resolve_result
-    raise r
-ipyparallel.error.RemoteError: ModuleNotFoundError(No module named 'workflow')
+  File "run_remote.py", line 35, in <module>
+    with open(r.outputs[0].result(), 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory: all_hellos.txt
+The terminal process terminated with exit code: 1
 ```
