@@ -18,5 +18,9 @@ local_config = Config(
 )
 parsl.load(local_config)
 
-r = run_cat_test().result()
-print ("Result from the test is {}".format(r))
+# Run this and print out the result
+r = run_cat_test()
+with open(r.outputs[0].result(), 'r') as f:
+    print(f.read())
+
+print ("Result from the test is {}".format(r.result()))
