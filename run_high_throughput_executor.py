@@ -16,7 +16,7 @@ import os
 remote_config = Config(
     executors=[
         HighThroughputExecutor(
-            label='remote_ipp',
+            label='remote_htex',
             cores_per_worker=2,
             address=address_by_hostname(),
             provider=LocalProvider(
