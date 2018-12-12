@@ -24,6 +24,16 @@
             "problemMatcher": []
         },
         {
+            "label": "run htex",
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "-ci",
+                "conda activate parsl_test && python run_high_throughput_executor.py"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Create Parsl Environment",
             "type": "process",
             "command": "bash",
